@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import {test, expect, request} from '@playwright/test';
 let baseURL: string = 'http://localhost:3000/users';
 
 test.describe('User management API with loop', () => {
@@ -35,18 +35,14 @@ test.describe('User management API with loop', () => {
     });
 
     test('Create few users and verify total number', async ({request}) => {
-        for(let i = 0; i < 3; i++) {
-            const response = await request.post(`${baseURL}`);
-        }
+        await createUsers(3)
         const response = await request.get(`${baseURL}`);
         const responseBody = await response.json()
         expect(responseBody.length).toBe(3);
     });
 
     test('Delete one user and verify other users', async ({request}) => {
-        for(let i=0; i<5; i++){
-            const response = await request.post(`${baseURL}`);
-        }
+        await createUsers(5)
         const response = await request.get(`${baseURL}`);
         const responseBody = await response.json();
         const numberOfObjects = responseBody.length;
@@ -81,6 +77,11 @@ test.describe('User management API with loop', () => {
     test('Delete all users and verify empty response', async ({ request }) => {
 
     });
-
+async function createUsers(numberOfUsers: number) {
+    const requestContext = await request.newContext()
+    for(let i= 0; i < numberOfUsers; i++){
+        const response = await requestContext.post(`${baseURL}`);
+    }
+}
 
 });
