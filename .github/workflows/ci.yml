@@ -31,7 +31,7 @@ jobs:
             up-flags: -d
 
       - name: Run test for empty array scenario
-        run: npx playwright test test/user-controller-empty.test.ts
+        run: npx playwright test tests/user-controller-empty.test.ts
 
       - name: Run remaining tests
         run: npx playwright test tests/user-controller.test.ts
