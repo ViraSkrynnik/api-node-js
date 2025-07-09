@@ -83,5 +83,5 @@ async function createUsers(numberOfUsers: number) {
         const response = await requestContext.post(`${baseURL}`);
     }
 }
-
 });
+
